@@ -1,0 +1,158 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+	int data;
+	node *left;
+	node *right;
+}*root=NULL,*tree=NULL;
+void add(node *tree,node *temp)
+{
+	if(root==NULL)
+	{
+		root=new node;
+		root->data=temp->data;
+		root->left=NULL;
+		root->right=NULL;
+		return ;
+	}
+	if(tree->data<=temp->data)
+	{
+		if(tree->left!=NULL)
+		{
+			add(tree->left,temp);
+		}
+		else
+		{
+			tree->left=temp;
+			tree->left->left=NULL;
+			tree->left->right=NULL;
+			return ;
+		}
+	}
+	else
+	{
+		if(tree->right!=NULL)
+		{
+			add(tree->right,temp);
+		}
+		else
+		{
+			tree->right=temp;
+			tree->right->left=NULL;
+			tree->right->right=NULL;
+			return ;
+		}
+	}
+}
+void preorder(node *temp)
+{
+	if(root==NULL)
+	{
+		cout<<"Tree is Empty!"<<endl;
+		return ;
+	}
+	if(temp)
+	{
+		cout<<temp->data<<"   ";
+		preorder(temp->left);
+		preorder(temp->right);
+	}
+}
+void inorder(node *temp)
+{
+	if(root==NULL)
+	{
+		cout<<"Tree is Empty!"<<endl;
+		return ;
+	}
+	if(temp)
+	{
+		inorder(temp->left);
+		cout<<temp->data<<"   ";
+		inorder(temp->right);
+	}
+}
+void postorder(node *temp)
+{
+	if(root==NULL)
+	{
+		cout<<"Tree is Empty!"<<endl;
+		return ;
+	}
+	if(temp)
+	{
+		postorder(temp->left);
+		postorder(temp->right);
+		cout<<temp->data<<"   ";
+	}
+}
+void display(node *temp, int level)
+{
+    if (temp)
+    {
+        display(temp->right, level+1);
+        cout<<endl;
+        if (temp == root)
+            cout<<"Root->:  ";
+        else
+            for (int i=0;i<level;i++)
+                cout<<"       ";
+                
+        cout<<temp->data;
+        display(temp->left, level+1);
+    }
+}
+int main()
+{
+	int ch=0;
+	do
+	{
+		cout<<"-----------------------"<<endl;
+		cout<<"Press 1. to Insert: "<<endl;
+		cout<<"Press 2. to Pre-order: "<<endl;
+		cout<<"Press 3. to In-order: "<<endl;
+		cout<<"Press 4. to Post-order: "<<endl;
+		cout<<"Press 5. to Display: "<<endl;
+		cout<<"Press 0. to Exit: "<<endl;
+		cout<<"-----------------------"<<endl;
+		cin>>ch;
+		if(ch==1)
+		{
+			node *temp=new node;
+			cout<<"Enter Data: "<<endl;
+			cin>>temp->data;
+			add(root,temp);
+		}
+		else if(ch==2)
+		{
+			cout<<"Tree Pre-Order:"<<endl;
+			preorder(root);
+			cout<<endl;
+		}
+		else if(ch==3)
+		{
+			cout<<"Tree In-Order:"<<endl;
+			inorder(root);	
+			cout<<endl;			
+		}
+		else if(ch==4)
+		{
+			cout<<"Tree Post-Order:"<<endl;
+			postorder(root);
+			cout<<endl;
+		}
+		else if(ch==5)
+		{
+			cout<<"Displaying Tree: "<<endl;
+			display(root,1);
+			cout<<endl;
+		}
+		else if(ch==0)
+			break;
+		else
+			cout<<"Invalid Option!"<<endl;	
+		
+	}while(ch!=0);
+	return 1;
+}
